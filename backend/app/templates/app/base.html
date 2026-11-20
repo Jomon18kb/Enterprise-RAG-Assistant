@@ -1,0 +1,73 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Enterprise RAG Assistant - Document Intelligence{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="app-header">
+        <div class="header-brand">
+            <div class="brand-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                </svg>
+            </div>
+            <div class="brand-text">
+                <h1>Enterprise RAG</h1>
+                <span class="brand-subtitle">Knowledge Assistant</span>
+            </div>
+        </div>
+
+        <div class="header-status">
+            <div class="status-badge {% if has_api_key %}status-online{% else %}status-warning{% endif %}" title="{{ llm_provider }}">
+                <span class="status-dot"></span>
+                <span class="status-label">{{ llm_provider }}</span>
+            </div>
+
+            <div class="stats-pills">
+                <div class="stat-pill">
+                    <span class="stat-num" id="total-doc-count">{{ total_documents }}</span>
+                    <span class="stat-name">Docs</span>
+                </div>
+                <div class="stat-pill">
+                    <span class="stat-num" id="total-chunk-count">{{ total_chunks }}</span>
+                    <span class="stat-name">Chunks</span>
+                </div>
+            </div>
+
+            <button type="button" class="btn btn-outline btn-sm" id="export-chat-btn" title="Export conversation as Markdown">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="7 10 12 15 17 10"></polyline>
+                    <line x1="12" y1="15" x2="12" y2="3"></line>
+                </svg>
+                Export
+            </button>
+            <button type="button" class="btn btn-outline btn-sm" id="clear-chat-btn" title="Clear conversation history">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="3 6 5 6 21 6"></polyline>
+                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                </svg>
+                Clear Chat
+            </button>
+        </div>
+    </header>
+
+    <main class="app-layout">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Global Toast Notifications -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <script src="{% static 'js/main.js' %}"></script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>
+
